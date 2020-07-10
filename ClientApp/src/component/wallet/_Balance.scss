@@ -1,0 +1,76 @@
+.Balance {
+    text-align: left;
+
+    @include media-breakpoint-up(xs) {
+        width: initial;
+    }
+
+    @include media-breakpoint-up(sm) {
+        width: 500px;
+    }
+
+    @include media-breakpoint-up(md) {
+        width: 700px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        width: 900px;
+    }
+
+    @include media-breakpoint-up(xl) {
+        width: 1200px;
+    }
+
+    & .BalanceItem {
+        background-color: $balance-background;
+        -webkit-box-shadow: 2px 2px 15px 0px rgba(168, 166, 168, 1);
+        -moz-box-shadow: 2px 2px 15px 0px rgba(168, 166, 168, 1);
+        box-shadow: 2px 2px 15px 0px rgba(168, 166, 168, 1);
+        margin: 10px;
+        border: 1px solid $border-color;
+        padding: 5px;
+        color: #646464;
+
+        & .CurrencyLogo {
+            width: 15%;
+            display: inline-block;
+        }
+
+        & .ValueInCurrency {
+            font-size: 1.4em;
+
+            @include media-breakpoint-up(md) {
+                font-size: 0.8em;
+            }
+
+            @include media-breakpoint-up(xl) {
+                font-size: 1em;
+            }
+        }
+
+        & .BalanceCurrency {
+            font-size: 1em;
+            text-align: right;
+
+            @include media-breakpoint-up(md) {
+                font-size: 0.6em;
+            }
+
+            & span {
+                display: block;
+            }
+        }
+
+        & img {
+            width: 50%;
+
+            @include media-breakpoint-up(md) {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.apiKeyInput{
+    width: 65%;
+}
