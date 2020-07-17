@@ -23,9 +23,9 @@ namespace MyCelsius.Controllers
         }
 
         [HttpGet]
-        public WalletModel Get(string apiKey)
+        public WalletModel Get(string apiKey, string fiatCurrencyToDisplayValues)
         {
-            return _walletService.GetWallet(apiKey);
+            return _walletService.GetWallet(apiKey, fiatCurrencyToDisplayValues);
         }
     }
 }

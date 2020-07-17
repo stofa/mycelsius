@@ -3,27 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyCelsius.Models.Wallet;
+using MyCelsius.Services.ExchangeRate;
 using Newtonsoft.Json;
 
 namespace MyCelsius.Services.Celsius
 {
     public interface IWalletService
     {
-        WalletModel GetWallet(string apiKey);
+        WalletModel GetWallet(string apiKey, string fiatCurrencyToDisplayValues);
     }
 
     public class WalletService : IWalletService
     {
+        private const string UsdFiatCurrencySymbol = "USD";
         private readonly ICelsiusApiService _celsiusApiService;
         private readonly ICurrencyService _currencyService;
+        private readonly IExchangeRateService _exchangeService;
 
-        public WalletService(ICelsiusApiService celsiusApiService, ICurrencyService currencyService)
+        public WalletService(ICelsiusApiService celsiusApiService, ICurrencyService currencyService
+            , IExchangeRateService exchangeService)
         {
             _celsiusApiService = celsiusApiService;
             _currencyService = currencyService;
+            _exchangeService = exchangeService;
         }
 
-        public WalletModel GetWallet(string apiKey)
+        public WalletModel GetWallet(string apiKey, string fiatCurrencyToDisplayValues)
         {
             WalletModel model = new WalletModel();
             List<BalanceModel> balances = new List<BalanceModel>();
@@ -31,7 +36,13 @@ namespace MyCelsius.Services.Celsius
             var response = _celsiusApiService.GetResultFromCelsiusApi(apiKey, Constants.CelsiusApiGetWalletBalance);
             dynamic des = JsonConvert.DeserializeObject(response.Content);
 
-            
+            decimal fiatExchangeRateToUsd = 1;
+
+            if (fiatCurrencyToDisplayValues.ToUpper() != UsdFiatCurrencySymbol)
+            {
+                fiatExchangeRateToUsd = _exchangeService.GetExchangeRateToUsd(fiatCurrencyToDisplayValues);
+            }
+
             foreach (var currency in _currencyService.GetSupportedCurrencies(apiKey))
             {
                 string currentCurrency = currency.ToString();
@@ -41,9 +52,13 @@ namespace MyCelsius.Services.Celsius
                 {
                     var balanceModel = new BalanceModel
                     {
-                        Amount = amount, Currency = currency, ValueInUsd = GetValueInUsd(apiKey, currentCurrency)
+                        Amount = amount,
+                        Currency = currency,
+                        ValueInUsd = GetValueInUsd(apiKey, currentCurrency),
+                        FiatCurrencyToDisplay = fiatCurrencyToDisplayValues
                     };
 
+                    balanceModel.ValueInCurrencyToDisplay = balanceModel.ValueInUsd * fiatExchangeRateToUsd;
                     balances.Add(balanceModel);
                 }
             }

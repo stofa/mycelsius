@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyCelsius.Services.Celsius;
+using MyCelsius.Services.ExchangeRate;
 
 namespace MyCelsius
 {
@@ -33,6 +34,7 @@ namespace MyCelsius
             services.AddScoped<ICelsiusApiService, CelsiusApiService>();
             services.AddScoped<IWalletService, WalletService>();
             services.AddScoped<ICurrencyService, CurrencyService>();
+            services.AddScoped<IExchangeRateService, ExchangeRateService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

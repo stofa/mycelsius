@@ -1,37 +1,72 @@
 import * as React from 'react';
 import { Balance, BalanceItem } from "../wallet/Balance";
 import { CurrencyDisplay } from "../currencydisplay/CurrencyDisplay"
+import Cookies from 'universal-cookie';
 
-export interface WalletProbs { apiKey?: string; }
-export interface WalletState { apiKey?: string; balances?: BalanceItem[], totalBalance: number }
+export interface WalletProbs { apiKey?: string; selectedFiatCurrency: string }
+export interface WalletState { apiKey?: string; rememberMe?: boolean; balances?: BalanceItem[], totalBalance: number }
 
+const cookieApiKeyName = 'apiKeyCookie';
 
 export class Wallet extends React.Component<WalletProbs, WalletState> {
     constructor(props: WalletProbs) {
         super(props);
-        this.state = { apiKey: props.apiKey || '', totalBalance: 0 }
+        const cookies = new Cookies();
+        const apiKeyFromCookie = cookies.get(cookieApiKeyName) || '';
+
+        this.state = { apiKey: props.apiKey || apiKeyFromCookie, totalBalance: 0, rememberMe: true }
 
         this.handlApiKeyChange = this.handlApiKeyChange.bind(this);
+        this.handleRememberMeChange = this.handleRememberMeChange.bind(this);
         this.loadData = this.loadData.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.state.apiKey !== "") {
+            this.fetchWalletData();
+        }
     }
 
     handlApiKeyChange(e: any) {
         this.setState({ apiKey: e.target.value });
     }
 
+    handleRememberMeChange(e: any) {
+        this.setState({ rememberMe: !this.state.rememberMe });
+    }
+
     loadData(e: React.MouseEvent) {
         e.preventDefault();
-        
-        fetch('wallet?apiKey=' + this.state.apiKey)
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ balances: data.balances, totalBalance: data.totalValueInUsd });
-            });
+        const cookies = new Cookies();
+
+        if (this.state.rememberMe) {
+            cookies.set(cookieApiKeyName, this.state.apiKey, { secure: true });
+        } else {
+            cookies.remove(cookieApiKeyName, { secure: true });
+        }
+
+        this.fetchWalletData();
     };
 
+    private fetchWalletData() {
+        if (this.state.apiKey !== "" && this.state.apiKey !== undefined) {
+            fetch('wallet?apiKey=' + this.state.apiKey
+                + '&fiatCurrencyToDisplayValues=' + this.props.selectedFiatCurrency)
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({ balances: data.balances, totalBalance: data.totalValueInCurrencyToDisplay });
+                });
+        }
+    }
+
+    componentDidUpdate(prevProps: WalletProbs, prevState: WalletState) {
+        if (prevProps.selectedFiatCurrency != this.props.selectedFiatCurrency) {
+            this.fetchWalletData();
+        }
+    }
 
     render() {
-        if (this.state.balances === undefined) {
+       if (this.state.balances === undefined) {
             return this.apiKeyForm();
         } else {
             return this.showBalances();
@@ -43,10 +78,15 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
             <p>
                 Enter your API-Key to load your dashboad
         </p>
-            <input className="apiKeyInput" type="text" id="userApiKey" value={this.state.apiKey} onChange={this.handlApiKeyChange} placeholder="your private API key"></input>
-            <button type="button" onClick={this.loadData} className="btn btn-primary ml-2">
-                Load it
-    </button>
+
+            <div className="form-group">
+                <input className="apiKeyInput" type="text" id="userApiKey" value={this.state.apiKey} onChange={this.handlApiKeyChange} placeholder="your private API key"></input>
+            </div>
+            <div className="form-check">
+                <input type="checkbox" className="form-check-input" id="chkRemember" onChange={this.handleRememberMeChange} defaultChecked={this.state.rememberMe} />
+                <label className="form-check-label" htmlFor="chkRemember">Remember me</label>
+            </div>
+            <button type="button" onClick={this.loadData} className="btn btn-primary ml-2">Load it</button>
         </div>;
     }
 
@@ -55,7 +95,7 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
 
             <div className="container-fluid">
                 <div>
-                    <CurrencyDisplay amount={this.state.totalBalance} />
+                    <CurrencyDisplay amount={this.state.totalBalance} currency={this.props.selectedFiatCurrency} />
                 </div>
                 <div className="row no-gutters">
                     {this.state.balances?.map(function (d: BalanceItem) {

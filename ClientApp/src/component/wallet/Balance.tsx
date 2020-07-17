@@ -2,7 +2,7 @@ import * as React from 'react';
 import { CurrencyDisplay } from "../currencydisplay/CurrencyDisplay"
 import { CoinIcon } from "../coinIcons/CoinIcons"
 
-export interface BalanceItem { currency: string, amount: number, valueInUsd: number, imgsrc: string };
+export interface BalanceItem { currency: string, amount: number, valueInUsd: number, imgsrc: string, valueInCurrencyToDisplay: number, fiatCurrencyToDisplay: string };
 
 export class Balance extends React.Component<BalanceItem> {
 
@@ -16,7 +16,7 @@ export class Balance extends React.Component<BalanceItem> {
                     <span>{this.props.currency}</span>
                     <span>{this.props.amount}</span>
                 </div>
-                <CurrencyDisplay amount={this.props.valueInUsd} />
+                <CurrencyDisplay amount={this.props.valueInCurrencyToDisplay} currency={this.props.fiatCurrencyToDisplay} />
             </div>
 
 
