@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { CelsiusDashboard } from "../celsiusdashboard/CelsiusDashboard";
 import * as logo from "./logo.png";
 

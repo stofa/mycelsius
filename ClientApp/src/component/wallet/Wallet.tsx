@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Balance, BalanceItem } from "../wallet/Balance";
 import { CurrencyDisplay } from "../currencydisplay/CurrencyDisplay"
-import Cookies from 'universal-cookie';
+import * as CookiesUtil from "../../cookies-utli"
 
 export interface WalletProbs { apiKey?: string; selectedFiatCurrency: string }
 export interface WalletState { apiKey?: string; rememberMe?: boolean; balances?: BalanceItem[], totalBalance: number }
@@ -11,8 +11,7 @@ const cookieApiKeyName = 'apiKeyCookie';
 export class Wallet extends React.Component<WalletProbs, WalletState> {
     constructor(props: WalletProbs) {
         super(props);
-        const cookies = new Cookies();
-        const apiKeyFromCookie = cookies.get(cookieApiKeyName) || '';
+        const apiKeyFromCookie = CookiesUtil.getCookie(cookieApiKeyName) || '';
 
         this.state = { apiKey: props.apiKey || apiKeyFromCookie, totalBalance: 0, rememberMe: true }
 
@@ -37,12 +36,11 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
 
     loadData(e: React.MouseEvent) {
         e.preventDefault();
-        const cookies = new Cookies();
-
+        
         if (this.state.rememberMe) {
-            cookies.set(cookieApiKeyName, this.state.apiKey, { secure: true });
+            CookiesUtil.setCookie(cookieApiKeyName, this.state.apiKey || "");
         } else {
-            cookies.remove(cookieApiKeyName, { secure: true });
+            CookiesUtil.deleteCookie(cookieApiKeyName);
         }
 
         this.fetchWalletData();

@@ -1,16 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Wallet = void 0;
-const React = require("react");
-const Balance_1 = require("../wallet/Balance");
-const CurrencyDisplay_1 = require("../currencydisplay/CurrencyDisplay");
-const universal_cookie_1 = require("universal-cookie");
+import * as React from 'react';
+import { Balance } from "../wallet/Balance";
+import { CurrencyDisplay } from "../currencydisplay/CurrencyDisplay";
+import * as CookiesUtil from "../../cookies-utli";
 const cookieApiKeyName = 'apiKeyCookie';
-class Wallet extends React.Component {
+export class Wallet extends React.Component {
     constructor(props) {
         super(props);
-        const cookies = new universal_cookie_1.default();
-        const apiKeyFromCookie = cookies.get(cookieApiKeyName) || '';
+        const apiKeyFromCookie = CookiesUtil.getCookie(cookieApiKeyName) || '';
         this.state = { apiKey: props.apiKey || apiKeyFromCookie, totalBalance: 0, rememberMe: true };
         this.handlApiKeyChange = this.handlApiKeyChange.bind(this);
         this.handleRememberMeChange = this.handleRememberMeChange.bind(this);
@@ -29,12 +25,11 @@ class Wallet extends React.Component {
     }
     loadData(e) {
         e.preventDefault();
-        const cookies = new universal_cookie_1.default();
         if (this.state.rememberMe) {
-            cookies.set(cookieApiKeyName, this.state.apiKey, { secure: true });
+            CookiesUtil.setCookie(cookieApiKeyName, this.state.apiKey || "");
         }
         else {
-            cookies.remove(cookieApiKeyName, { secure: true });
+            CookiesUtil.deleteCookie(cookieApiKeyName);
         }
         this.fetchWalletData();
     }
@@ -77,11 +72,10 @@ class Wallet extends React.Component {
         return React.createElement("div", { className: "Balance" },
             React.createElement("div", { className: "container-fluid" },
                 React.createElement("div", null,
-                    React.createElement(CurrencyDisplay_1.CurrencyDisplay, { amount: this.state.totalBalance, currency: this.props.selectedFiatCurrency })),
+                    React.createElement(CurrencyDisplay, { amount: this.state.totalBalance, currency: this.props.selectedFiatCurrency })),
                 React.createElement("div", { className: "row no-gutters" }, (_a = this.state.balances) === null || _a === void 0 ? void 0 : _a.map(function (d) {
-                    return React.createElement(Balance_1.Balance, Object.assign({}, d, { key: d.currency }));
+                    return React.createElement(Balance, Object.assign({}, d, { key: d.currency }));
                 }))));
     }
 }
-exports.Wallet = Wallet;
 //# sourceMappingURL=Wallet.js.map

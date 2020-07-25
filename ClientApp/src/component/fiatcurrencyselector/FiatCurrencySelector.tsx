@@ -1,5 +1,5 @@
 ﻿import * as React from "react";
-import Cookies from "universal-cookie";
+import * as CookiesUtil from "../../cookies-utli"
 import * as Constants from "../../Constants"
 
 export interface IFiatCurrencySelectorProps { selectedCurrency?: string, onSelectedCurrencyChange: any };
@@ -24,8 +24,7 @@ export class FiatCurrencySelector extends React.Component<IFiatCurrencySelectorP
 
     handleSelectedCurrencyChanged(e: any) {
         this.props.onSelectedCurrencyChange(e.target.value);
-        const cookies = new Cookies();
-        cookies.set(Constants.currencyToDisplayCookieName, e.target.value, { secure: true });
+        CookiesUtil.setCookie(Constants.currencyToDisplayCookieName, e.target.value);
     }
 
     render() {

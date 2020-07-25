@@ -1,12 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.FiatCurrencySelector = void 0;
-const React = require("react");
-const universal_cookie_1 = require("universal-cookie");
-const Constants = require("../../Constants");
+import * as React from "react";
+import * as CookiesUtil from "../../cookies-utli";
+import * as Constants from "../../Constants";
 ;
 ;
-class FiatCurrencySelector extends React.Component {
+export class FiatCurrencySelector extends React.Component {
     constructor(props) {
         super(props);
         this.state = { availableCurrencies: [] };
@@ -21,8 +18,7 @@ class FiatCurrencySelector extends React.Component {
     }
     handleSelectedCurrencyChanged(e) {
         this.props.onSelectedCurrencyChange(e.target.value);
-        const cookies = new universal_cookie_1.default();
-        cookies.set(Constants.currencyToDisplayCookieName, e.target.value, { secure: true });
+        CookiesUtil.setCookie(Constants.currencyToDisplayCookieName, e.target.value);
     }
     render() {
         return this.getAvailableCurrencies();
@@ -39,5 +35,4 @@ class FiatCurrencySelector extends React.Component {
         }
     }
 }
-exports.FiatCurrencySelector = FiatCurrencySelector;
 //# sourceMappingURL=FiatCurrencySelector.js.map

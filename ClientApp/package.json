@@ -19,8 +19,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
     "reactstrap": "^8.5.1",
-    "rimraf": "^3.0.2",
-    "universal-cookie": "^4.0.3"
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "ajv": "^6.12.3",

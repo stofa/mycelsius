@@ -46,7 +46,7 @@ namespace MyCelsius.Services.Celsius
         private List<string> LoadSupportedCurrenciesFromCelsius(string apiKey)
         {
             var currenciesReponse =
-                _celsiusApiService.GetResultFromCelsiusApi(apiKey, Constants.CelsiusApiGetSupportedCurrencies);
+                _celsiusApiService.GetResultFromCelsiusPrivateApi(apiKey, Constants.CelsiusApiGetSupportedCurrencies);
             dynamic currencies = JsonConvert.DeserializeObject(currenciesReponse.Content);
 
             List<string> tmpCurrencies = new List<string>();

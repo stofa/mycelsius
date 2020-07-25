@@ -10,7 +10,9 @@ namespace MyCelsius.Services.Celsius
 {
     public interface ICelsiusApiService
     {
-        IRestResponse GetResultFromCelsiusApi(string apiKey, string url);
+        IRestResponse GetResultFromCelsiusPrivateApi(string apiKey, string url);
+
+        IRestResponse GetResultFromCelsiusPublicApi(string url);
     }
 
     public class CelsiusApiService : ICelsiusApiService
@@ -22,16 +24,25 @@ namespace MyCelsius.Services.Celsius
             _configuration = configuration;
         }
 
-        public IRestResponse GetResultFromCelsiusApi(string apiKey, string url)
+        public IRestResponse GetResultFromCelsiusPrivateApi(string apiKey, string url)
         {
             var client = new RestClient(url) { Timeout = -1 };
             var request = new RestRequest(Method.GET);
             request.AddHeader("X-Cel-Partner-Token", _configuration["CelsiusApi:PrivateApiKey"]);
             request.AddHeader("X-Cel-Api-Key", apiKey);
 
-            IRestResponse response = client.Execute(request);
-            return response;
+            return client.Execute(request);
         }
 
+        public IRestResponse GetResultFromCelsiusPublicApi(string url)
+        {
+            var client = new RestClient("https://celsius.network/api/community/top100")
+            {
+                Timeout = -1
+            };
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("x-api-key", _configuration["CelsiusApi:PublicApiKey"]);
+            return client.Execute(request);
+        }
     }
 }

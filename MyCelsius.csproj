@@ -37,6 +37,7 @@
     <None Remove="ClientApp\src\component\celsiusdashboard\CelsiusDashboard.tsx" />
     <None Remove="ClientApp\src\component\fiatcurrencyselector\FiatCurrencySelector.tsx" />
     <None Remove="ClientApp\src\Constants.tsx" />
+    <None Remove="ClientApp\src\cookies-utli.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ClientApp\src\services\community\" />
@@ -69,7 +70,7 @@
     </ItemGroup>
   </Target>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES2017</TypeScriptTarget>
+    <TypeScriptTarget>ES2015</TypeScriptTarget>
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
     <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>

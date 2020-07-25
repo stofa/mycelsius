@@ -33,7 +33,7 @@ namespace MyCelsius.Services.Celsius
             WalletModel model = new WalletModel();
             List<BalanceModel> balances = new List<BalanceModel>();
 
-            var response = _celsiusApiService.GetResultFromCelsiusApi(apiKey, Constants.CelsiusApiGetWalletBalance);
+            var response = _celsiusApiService.GetResultFromCelsiusPrivateApi(apiKey, Constants.CelsiusApiGetWalletBalance);
             dynamic des = JsonConvert.DeserializeObject(response.Content);
 
             decimal fiatExchangeRateToUsd = 1;
@@ -71,7 +71,7 @@ namespace MyCelsius.Services.Celsius
         private decimal GetValueInUsd(string apiKey, string currentCurrency)
         {
             var balancePerCoinResponse =
-                _celsiusApiService.GetResultFromCelsiusApi(apiKey,
+                _celsiusApiService.GetResultFromCelsiusPrivateApi(apiKey,
                     String.Format(Constants.CelsiusApiGetCoinBalance, currentCurrency));
             dynamic balancePerCoin = JsonConvert.DeserializeObject(balancePerCoinResponse.Content);
             return Convert.ToDecimal(balancePerCoin["amount_in_usd"]);
