@@ -50,7 +50,7 @@ class Wallet extends React.Component {
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.selectedFiatCurrency != this.props.selectedFiatCurrency) {
+        if (prevProps.selectedFiatCurrency !== this.props.selectedFiatCurrency) {
             this.fetchWalletData();
         }
     }

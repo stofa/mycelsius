@@ -60,7 +60,7 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
     }
 
     componentDidUpdate(prevProps: WalletProbs, prevState: WalletState) {
-        if (prevProps.selectedFiatCurrency != this.props.selectedFiatCurrency) {
+        if (prevProps.selectedFiatCurrency !== this.props.selectedFiatCurrency) {
             this.fetchWalletData();
         }
     }

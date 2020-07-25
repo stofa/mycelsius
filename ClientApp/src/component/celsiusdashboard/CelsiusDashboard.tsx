@@ -21,12 +21,10 @@ export class CelsiusDashboard extends React.Component<any, ICelsiusDashboardStat
     }
 
     handleSelectedCurrencyChanged(e: any) {
-        console.log(e);
         this.setState({ selectedFiatCurrency: e });
     }
 
     render() {
-        console.log("render dashboard");
         return <div>
             <FiatCurrencySelector onSelectedCurrencyChange={this.handleSelectedCurrencyChanged} selectedCurrency={this.state.selectedFiatCurrency} />
             <Wallet selectedFiatCurrency={this.state.selectedFiatCurrency || UsdFiatCurrencySymbol} />

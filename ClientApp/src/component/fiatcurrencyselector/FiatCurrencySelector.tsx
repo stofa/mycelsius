@@ -1,5 +1,4 @@
 ﻿import * as React from "react";
-import { usePopper } from "react-popper";
 import Cookies from "universal-cookie";
 import * as Constants from "../../Constants"
 
