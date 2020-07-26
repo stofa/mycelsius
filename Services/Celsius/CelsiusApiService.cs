@@ -36,7 +36,7 @@ namespace MyCelsius.Services.Celsius
 
         public IRestResponse GetResultFromCelsiusPublicApi(string url)
         {
-            var client = new RestClient("https://celsius.network/api/community/top100")
+            var client = new RestClient(url)
             {
                 Timeout = -1
             };

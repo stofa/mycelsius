@@ -12,6 +12,9 @@ namespace MyCelsius
         public static string CelsiusApiGetWalletBalance => $"{CelsiusApiRootUrl}/wallet/balance";
         public static string CelsiusApiGetCoinBalance => $"{CelsiusApiRootUrl}/wallet/{{0}}/balance";
 
+        public const string CelsiusPublicApiRootUrl = "https://celsius.network/api";
+        public static string CelsiusTop100Url => $"{CelsiusPublicApiRootUrl}/community/top100";
+
 
         public const string ExchangeRateApiRootUrl = "https://api.exchangeratesapi.io";
         public static string ExchangeRateAvailableCurrencies => $"{ExchangeRateApiRootUrl}/latest?base=USD";

@@ -32,6 +32,11 @@ export class Wallet extends React.Component {
             CookiesUtil.deleteCookie(cookieApiKeyName);
         }
         this.fetchWalletData();
+        fetch("community")
+            .then(response => response.json())
+            .then(data => {
+            console.log(data);
+        });
     }
     ;
     fetchWalletData() {

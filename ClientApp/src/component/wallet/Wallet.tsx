@@ -44,6 +44,12 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
         }
 
         this.fetchWalletData();
+
+        fetch("community")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            });
     };
 
     private fetchWalletData() {

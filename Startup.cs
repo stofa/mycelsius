@@ -1,23 +1,25 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyCelsius.Services.Celsius;
+using MyCelsius.Services.CelsiusMock;
 using MyCelsius.Services.ExchangeRate;
 
 namespace MyCelsius
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            HostingEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment HostingEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -32,10 +34,21 @@ namespace MyCelsius
             });
 
             services.AddScoped<ICelsiusApiService, CelsiusApiService>();
-            services.AddScoped<IWalletService, WalletService>();
             services.AddScoped<ICurrencyService, CurrencyService>();
             services.AddScoped<IExchangeRateService, ExchangeRateService>();
+            services.AddScoped<ICommunityService, CommunityService>();
+
+            if (HostingEnvironment.IsDevelopment())
+            {
+                services.AddScoped<IWalletService, WalletServiceMock>();
+            }
+            else
+            {
+                services.AddScoped<IWalletService, WalletService>();
+            }
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

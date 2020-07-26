@@ -28,8 +28,11 @@ import * as eos from "./icons/eos.png"
 import * as sga from "./icons/sga.png"
 import * as xaut from "./icons/xaut.png"
 import * as etc from "./icons/etc.png"
+import * as bat from "./icons/bat.png"
+import * as busd from "./icons/busd.png"
 
-const icons: any = Object.freeze({ eth, btc, dash, bch, bsv, ltc, zec, btg, xrp, xlm, omg, tusd, gusd, pax, usdc, dai, zrx, cel, mcdai, orbs, usdterc20, tgbp, taud, thkd, tcad, eos, sga, xaut, etc });
+
+const icons: any = Object.freeze({ eth, btc, dash, bch, bsv, ltc, zec, btg, xrp, xlm, omg, tusd, gusd, pax, usdc, dai, zrx, cel, mcdai, orbs, usdterc20, tgbp, taud, thkd, tcad, eos, sga, xaut, etc, bat, busd });
 
 export interface CoinIconProps { currency: string };
 
