@@ -29,7 +29,9 @@ export class CelsiusDashboard extends React.Component<any, ICelsiusDashboardStat
 
     render() {
         return <div>
-            <WalletHeader totalBalance={this.state.totalBalance} onSelectedCurrencyChange={this.handleSelectedCurrencyChanged} selectedFiatCurrency={this.state.selectedFiatCurrency} />
+            {this.state.totalBalance > 0 &&
+                <WalletHeader totalBalance={this.state.totalBalance} onSelectedCurrencyChange={this.handleSelectedCurrencyChanged} selectedFiatCurrency={this.state.selectedFiatCurrency} />
+            }
             <Wallet selectedFiatCurrency={this.state.selectedFiatCurrency || UsdFiatCurrencySymbol} onTotalBalanceChanged={this.handleTotalBalanceChanged} />
         </div>
     };

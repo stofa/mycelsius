@@ -18,8 +18,6 @@ export class Balance extends React.Component<BalanceItem> {
                 </div>
                 <CurrencyDisplay amount={this.props.valueInCurrencyToDisplay} currency={this.props.fiatCurrencyToDisplay} />
             </div>
-
-
         </div>
     }
 }

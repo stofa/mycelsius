@@ -21,7 +21,8 @@ export class CelsiusDashboard extends React.Component {
     }
     render() {
         return React.createElement("div", null,
-            React.createElement(WalletHeader, { totalBalance: this.state.totalBalance, onSelectedCurrencyChange: this.handleSelectedCurrencyChanged, selectedFiatCurrency: this.state.selectedFiatCurrency }),
+            this.state.totalBalance > 0 &&
+                React.createElement(WalletHeader, { totalBalance: this.state.totalBalance, onSelectedCurrencyChange: this.handleSelectedCurrencyChanged, selectedFiatCurrency: this.state.selectedFiatCurrency }),
             React.createElement(Wallet, { selectedFiatCurrency: this.state.selectedFiatCurrency || UsdFiatCurrencySymbol, onTotalBalanceChanged: this.handleTotalBalanceChanged }));
     }
     ;

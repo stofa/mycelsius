@@ -16,7 +16,7 @@ export class WalletHeader extends React.Component {
                 React.createElement("div", { className: "row no-gutters" },
                     React.createElement("div", { className: "col-4" },
                         React.createElement(CurrencyDisplay, { amount: this.props.totalBalance, currency: this.props.selectedFiatCurrency })),
-                    React.createElement("div", { className: "offset-6 col-2" },
+                    React.createElement("div", { className: "offset-6 col-2 text-right" },
                         React.createElement(FiatCurrencySelector, { onSelectedCurrencyChange: this.handleSelectedCurrencyChanged, selectedCurrency: this.props.selectedFiatCurrency })))));
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MyCelsius.Models.Community;
 using MyCelsius.Models.Wallet;
 using MyCelsius.Services.Celsius;
 using Newtonsoft.Json;
@@ -14,7 +15,7 @@ namespace MyCelsius.Controllers
 
 
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class CommunityController : ControllerBase
     {
         private readonly ICommunityService _communityService;
@@ -25,10 +26,9 @@ namespace MyCelsius.Controllers
         }
 
         [HttpGet]
-        public WalletModel Get()
+        public Top100Model GetTop100(int currentCelBalance)
         {
-            _communityService.GetTop100();
-            return null;
+            return _communityService.GetTop100(currentCelBalance);
         }
     }
 }

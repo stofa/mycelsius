@@ -19,5 +19,7 @@ namespace MyCelsius
         public const string ExchangeRateApiRootUrl = "https://api.exchangeratesapi.io";
         public static string ExchangeRateAvailableCurrencies => $"{ExchangeRateApiRootUrl}/latest?base=USD";
         public static string ExchangeRateLatestToUsd => $"{ExchangeRateApiRootUrl}/latest?base=USD&symbols={{0}}";
+
+        public const string CelTicker = "CEL";
     }
 }

@@ -24,7 +24,7 @@ export class WalletHeader extends React.Component<IWalletHeaderProps, any> {
                     <div className="col-4">
                         <CurrencyDisplay amount={this.props.totalBalance} currency={this.props.selectedFiatCurrency} />
                     </div>
-                    <div className="offset-6 col-2">
+                    <div className="offset-6 col-2 text-right">
                         <FiatCurrencySelector onSelectedCurrencyChange={this.handleSelectedCurrencyChanged} selectedCurrency={this.props.selectedFiatCurrency} />
                     </div>
                 </div>

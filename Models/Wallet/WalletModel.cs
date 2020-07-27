@@ -11,5 +11,6 @@ namespace MyCelsius.Models.Wallet
         public decimal TotalValueInCurrencyToDisplay => Balances.Sum(t => t.ValueInCurrencyToDisplay);
 
         public IEnumerable<BalanceModel> Balances { get; set; }
+        public decimal? CurrentCelBalance { get; internal set; }
     }
 }

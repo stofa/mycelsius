@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Balance, BalanceItem } from "../wallet/Balance";
 import * as CookiesUtil from "../../cookies-utli"
+import { CommunityStats, CommunityStatsProps } from '../communitystats/CommunityStats';
 
 export interface WalletProbs { apiKey?: string; selectedFiatCurrency: string, onTotalBalanceChanged: any }
-export interface WalletState { apiKey?: string; rememberMe?: boolean; balances?: BalanceItem[], totalBalance: number }
+export interface WalletState { apiKey?: string; rememberMe?: boolean; balances?: BalanceItem[], totalBalance: number, communityStats?: CommunityStatsProps }
 
 const cookieApiKeyName = 'apiKeyCookie';
 
@@ -35,7 +36,7 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
 
     loadData(e: React.MouseEvent) {
         e.preventDefault();
-        
+
         if (this.state.rememberMe) {
             CookiesUtil.setCookie(cookieApiKeyName, this.state.apiKey || "");
         } else {
@@ -43,12 +44,6 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
         }
 
         this.fetchWalletData();
-
-        fetch("community")
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            });
     };
 
     private fetchWalletData() {
@@ -59,6 +54,12 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
                 .then(data => {
                     this.setState({ balances: data.balances, totalBalance: data.totalValueInCurrencyToDisplay });
                     this.props.onTotalBalanceChanged(data.totalValueInCurrencyToDisplay);
+
+                    fetch("community/getTop100?currentCelBalance=" + data.currentCelBalance)
+                        .then(response => response.json())
+                        .then(data => {
+                            this.setState({ communityStats: { top100Stats: data } });
+                        });
                 });
         }
     }
@@ -70,7 +71,7 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
     }
 
     render() {
-       if (this.state.balances === undefined) {
+        if (this.state.balances === undefined) {
             return this.apiKeyForm();
         } else {
             return this.showBalances();
@@ -99,6 +100,11 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
 
             <div className="container-fluid">
                 <div className="row no-gutters">
+                    {this.state.communityStats !== undefined &&
+                        <div className="mt-3 col-12">
+                            <CommunityStats {...this.state.communityStats} />
+                        </div>
+                    }
                     {this.state.balances?.map(function (d: BalanceItem) {
                         return <Balance {...d} key={d.currency} />
                     })}

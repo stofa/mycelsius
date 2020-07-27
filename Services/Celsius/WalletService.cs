@@ -64,7 +64,7 @@ namespace MyCelsius.Services.Celsius
             }
 
             model.Balances = balances.OrderByDescending(b => b.ValueInUsd);
-
+            model.CurrentCelBalance = balances.SingleOrDefault(b => b.Currency == Constants.CelTicker)?.Amount;
             return model;
         }
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Balance } from "../wallet/Balance";
 import * as CookiesUtil from "../../cookies-utli";
+import { CommunityStats } from '../communitystats/CommunityStats';
 const cookieApiKeyName = 'apiKeyCookie';
 export class Wallet extends React.Component {
     constructor(props) {
@@ -31,11 +32,6 @@ export class Wallet extends React.Component {
             CookiesUtil.deleteCookie(cookieApiKeyName);
         }
         this.fetchWalletData();
-        fetch("community")
-            .then(response => response.json())
-            .then(data => {
-            console.log(data);
-        });
     }
     ;
     fetchWalletData() {
@@ -46,6 +42,11 @@ export class Wallet extends React.Component {
                 .then(data => {
                 this.setState({ balances: data.balances, totalBalance: data.totalValueInCurrencyToDisplay });
                 this.props.onTotalBalanceChanged(data.totalValueInCurrencyToDisplay);
+                fetch("community/getTop100?currentCelBalance=" + data.currentCelBalance)
+                    .then(response => response.json())
+                    .then(data => {
+                    this.setState({ communityStats: { top100Stats: data } });
+                });
             });
         }
     }
@@ -76,9 +77,13 @@ export class Wallet extends React.Component {
         var _a;
         return React.createElement("div", { className: "Balance" },
             React.createElement("div", { className: "container-fluid" },
-                React.createElement("div", { className: "row no-gutters" }, (_a = this.state.balances) === null || _a === void 0 ? void 0 : _a.map(function (d) {
-                    return React.createElement(Balance, Object.assign({}, d, { key: d.currency }));
-                }))));
+                React.createElement("div", { className: "row no-gutters" },
+                    this.state.communityStats !== undefined &&
+                        React.createElement("div", { className: "mt-3 col-12" },
+                            React.createElement(CommunityStats, Object.assign({}, this.state.communityStats))), (_a = this.state.balances) === null || _a === void 0 ? void 0 :
+                    _a.map(function (d) {
+                        return React.createElement(Balance, Object.assign({}, d, { key: d.currency }));
+                    }))));
     }
 }
 //# sourceMappingURL=Wallet.js.map
