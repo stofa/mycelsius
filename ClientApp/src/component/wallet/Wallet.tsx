@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Balance, BalanceItem } from "../wallet/Balance";
-import { CurrencyDisplay } from "../currencydisplay/CurrencyDisplay"
 import * as CookiesUtil from "../../cookies-utli"
 
-export interface WalletProbs { apiKey?: string; selectedFiatCurrency: string }
+export interface WalletProbs { apiKey?: string; selectedFiatCurrency: string, onTotalBalanceChanged: any }
 export interface WalletState { apiKey?: string; rememberMe?: boolean; balances?: BalanceItem[], totalBalance: number }
 
 const cookieApiKeyName = 'apiKeyCookie';
@@ -59,6 +58,7 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
                 .then(response => response.json())
                 .then(data => {
                     this.setState({ balances: data.balances, totalBalance: data.totalValueInCurrencyToDisplay });
+                    this.props.onTotalBalanceChanged(data.totalValueInCurrencyToDisplay);
                 });
         }
     }
@@ -98,9 +98,6 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
         return <div className="Balance">
 
             <div className="container-fluid">
-                <div>
-                    <CurrencyDisplay amount={this.state.totalBalance} currency={this.props.selectedFiatCurrency} />
-                </div>
                 <div className="row no-gutters">
                     {this.state.balances?.map(function (d: BalanceItem) {
                         return <Balance {...d} key={d.currency} />

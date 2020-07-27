@@ -34,6 +34,7 @@
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="ClientApp\src\component\walletheader\WalletHeader.tsx" />
     <None Remove="ClientApp\src\component\celsiusdashboard\CelsiusDashboard.tsx" />
     <None Remove="ClientApp\src\component\fiatcurrencyselector\FiatCurrencySelector.tsx" />
     <None Remove="ClientApp\src\Constants.tsx" />

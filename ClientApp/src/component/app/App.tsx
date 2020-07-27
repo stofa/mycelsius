@@ -11,7 +11,7 @@ function App() {
                 <h1 className="pt-2">my celsius network dashboard</h1>
             </header>
             <div className="App-body">
-                <CelsiusDashboard />
+                <CelsiusDashboard  />
             </div>
         </div>
     );

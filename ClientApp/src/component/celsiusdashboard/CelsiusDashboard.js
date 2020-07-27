@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Wallet } from "../wallet/Wallet";
-import { FiatCurrencySelector } from "../fiatcurrencyselector/FiatCurrencySelector";
+import { WalletHeader } from "../walletheader/WalletHeader";
 import * as Constants from "../../Constants";
 import * as CookiesUtil from "../../cookies-utli";
 const UsdFiatCurrencySymbol = "USD";
@@ -9,16 +9,20 @@ export class CelsiusDashboard extends React.Component {
     constructor(props) {
         super(props);
         const currencyToDisplayFromCookie = CookiesUtil.getCookie(Constants.currencyToDisplayCookieName) || UsdFiatCurrencySymbol;
-        this.state = { selectedFiatCurrency: currencyToDisplayFromCookie };
+        this.state = { selectedFiatCurrency: currencyToDisplayFromCookie, totalBalance: 0 };
         this.handleSelectedCurrencyChanged = this.handleSelectedCurrencyChanged.bind(this);
+        this.handleTotalBalanceChanged = this.handleTotalBalanceChanged.bind(this);
     }
     handleSelectedCurrencyChanged(e) {
         this.setState({ selectedFiatCurrency: e });
     }
+    handleTotalBalanceChanged(e) {
+        this.setState({ totalBalance: e });
+    }
     render() {
         return React.createElement("div", null,
-            React.createElement(FiatCurrencySelector, { onSelectedCurrencyChange: this.handleSelectedCurrencyChanged, selectedCurrency: this.state.selectedFiatCurrency }),
-            React.createElement(Wallet, { selectedFiatCurrency: this.state.selectedFiatCurrency || UsdFiatCurrencySymbol }));
+            React.createElement(WalletHeader, { totalBalance: this.state.totalBalance, onSelectedCurrencyChange: this.handleSelectedCurrencyChanged, selectedFiatCurrency: this.state.selectedFiatCurrency }),
+            React.createElement(Wallet, { selectedFiatCurrency: this.state.selectedFiatCurrency || UsdFiatCurrencySymbol, onTotalBalanceChanged: this.handleTotalBalanceChanged }));
     }
     ;
 }

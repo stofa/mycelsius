@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Balance } from "../wallet/Balance";
-import { CurrencyDisplay } from "../currencydisplay/CurrencyDisplay";
 import * as CookiesUtil from "../../cookies-utli";
 const cookieApiKeyName = 'apiKeyCookie';
 export class Wallet extends React.Component {
@@ -46,6 +45,7 @@ export class Wallet extends React.Component {
                 .then(response => response.json())
                 .then(data => {
                 this.setState({ balances: data.balances, totalBalance: data.totalValueInCurrencyToDisplay });
+                this.props.onTotalBalanceChanged(data.totalValueInCurrencyToDisplay);
             });
         }
     }
@@ -76,8 +76,6 @@ export class Wallet extends React.Component {
         var _a;
         return React.createElement("div", { className: "Balance" },
             React.createElement("div", { className: "container-fluid" },
-                React.createElement("div", null,
-                    React.createElement(CurrencyDisplay, { amount: this.state.totalBalance, currency: this.props.selectedFiatCurrency })),
                 React.createElement("div", { className: "row no-gutters" }, (_a = this.state.balances) === null || _a === void 0 ? void 0 : _a.map(function (d) {
                     return React.createElement(Balance, Object.assign({}, d, { key: d.currency }));
                 }))));
