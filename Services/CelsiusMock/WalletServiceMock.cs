@@ -38,7 +38,7 @@ namespace MyCelsius.Services.CelsiusMock
             }
 
             model.Balances = balances.OrderByDescending(b=>b.ValueInCurrencyToDisplay);
-            model.CurrentCelBalance = 398264;
+            model.CurrentCelBalance = (decimal?)398264.123;
             return model;
         }
     }
