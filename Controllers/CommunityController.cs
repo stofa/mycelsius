@@ -26,9 +26,9 @@ namespace MyCelsius.Controllers
         }
 
         [HttpGet]
-        public Top100Model GetTop100(int currentCelBalance)
+        public Top100Model GetTop100(decimal currentCelBalance)
         {
-            return _communityService.GetTop100(currentCelBalance);
+            return _communityService.GetTop100(Convert.ToInt32(currentCelBalance));
         }
     }
 }
