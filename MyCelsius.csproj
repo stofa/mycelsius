@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="ClientApp\src\component\communitystats\CommunityStats.tsx" />
+    <None Remove="ClientApp\src\component\loadingindicator\LoadingIndicator.tsx" />
     <None Remove="ClientApp\src\component\walletheader\WalletHeader.tsx" />
     <None Remove="ClientApp\src\component\celsiusdashboard\CelsiusDashboard.tsx" />
     <None Remove="ClientApp\src\component\fiatcurrencyselector\FiatCurrencySelector.tsx" />

@@ -3,7 +3,7 @@ import { Balance, BalanceItem } from "../wallet/Balance";
 import * as CookiesUtil from "../../cookies-utli"
 import { CommunityStats, CommunityStatsProps } from '../communitystats/CommunityStats';
 
-export interface WalletProbs { apiKey?: string; selectedFiatCurrency: string, onTotalBalanceChanged: any }
+export interface WalletProbs { apiKey?: string; selectedFiatCurrency: string, onTotalBalanceChanged: any, setLoadingState: any }
 export interface WalletState { apiKey?: string; rememberMe?: boolean; balances?: BalanceItem[], totalBalance: number, communityStats?: CommunityStatsProps }
 
 const cookieApiKeyName = 'apiKeyCookie';
@@ -54,7 +54,7 @@ export class Wallet extends React.Component<WalletProbs, WalletState> {
                 .then(data => {
                     this.setState({ balances: data.balances, totalBalance: data.totalValueInCurrencyToDisplay });
                     this.props.onTotalBalanceChanged(data.totalValueInCurrencyToDisplay);
-
+                    
                     fetch("community/getTop100?currentCelBalance=" + data.currentCelBalance)
                         .then(response => response.json())
                         .then(data => {
